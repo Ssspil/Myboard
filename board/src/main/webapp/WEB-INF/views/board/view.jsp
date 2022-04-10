@@ -18,7 +18,7 @@ ${view.writer}<br />
 ${view.content}<br />
 
 <div>
-	<a href="/board/modify?no=${view.no}">게시물 수정</a> ,<a href="/board/list">게시물 목록으로</a>, <a href="/board/delete?no=${view.no}">게시물 삭제</a>
+	<a href="/board/modify?no=${view.no}">게시물 수정</a> ,<a href="/board/listPage?num=1">게시물 목록으로</a>, <a href="/board/delete?no=${view.no}">게시물 삭제</a>
 </div>
 
 </body>

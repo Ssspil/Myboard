@@ -16,9 +16,10 @@
 
 	아이디 : <input type="text" name="UserID"><br>
 	비밀번호 : <input type="password" name="UserPassword"><br>
-	 <p> <a href="/board/list"> 로그인 (게시물 목록 들어가는 곳)</a>
-	<p> <a href="/board/write"> 게시물 작성하기</a>
+	 <!-- <p> <a href="/board/list"> 로그인 (게시물 목록 들어가는 곳)</a>  -->
+ 	<p> <a href="/board/write"> 게시물 작성하기</a>
 	<p> <a href="/board/listPage?num=1"> 로그인 (게시물 페이징목록 들어가는 곳)</a>
+	<p> <a href="/board/listPageSearch?num=1"> 로그인 (게시물 페이징목록 + 검색 들어가는 곳)</a>
 </form>
 
 

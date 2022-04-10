@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.board.dao.BoardDAO;
 import com.board.domain.BoardVO;
+import com.board.domain.Page;
 import com.board.service.BoardService;
 
 @Controller
@@ -34,20 +35,96 @@ public class BoardController {
 	@RequestMapping(value="/listPage", method=RequestMethod.GET)
 	public void getListpage(Model model, @RequestParam("num") int num) throws Exception{
 		
+		Page page = new Page();
+		
+		page.setNum(num);
+		page.setCount(service.count());  
+
+		List<BoardVO> list = null; 
+		list = service.listPage(page.getDisplayPost(), page.getPostNum());
+
+		model.addAttribute("list", list);   
+		/*model.addAttribute("pageNum", page.getPageNum());
+
+		model.addAttribute("startPageNum", page.getStartPageNum());
+		model.addAttribute("endPageNum", page.getEndPageNum());
+		 
+		model.addAttribute("prev", page.getPrev());
+		model.addAttribute("next", page.getNext()); */ 
+		// 위에 코드를 합한게 바로 아래 보이는 코드
+		model.addAttribute("page",page);
+
+		model.addAttribute("select", num);
+		/*
 		// 게시물 총 갯수
 		int count = service.count();
 		// 한 페이지에 출력할 게시물 개수
-		int postNum = 10;
+		int postNum = 5;   // 원래는 10개
 		// 하단 페이징 번호
 		int pageNum = (int)Math.ceil((double)count/postNum);
 		// 출력할 게시물
 		int displayPost = (num -1) * postNum;
 		
+		// 한번에 표시할 페이징 번호의 개수
+		int pageNum_cnt = 5;   // 원래는 10개
+		// 표시되는 페이지 번호 중 마지막 번호
+		int endPageNum = (int)(Math.ceil((double)num / (double)pageNum_cnt) * pageNum_cnt );
+		// 표시되는 페이지 번호 중 첫번째 번호
+		int startPageNum = endPageNum - (pageNum_cnt - 1);  
+		// 마지막 번호 재계산
+		int endPageNum_tmp = (int)(Math.ceil((double)count / (double)pageNum_cnt));
+		
+		if(endPageNum > endPageNum_tmp) {
+			 endPageNum = endPageNum_tmp;
+		}
+		
+		boolean prev = startPageNum == 1 ? false : true;
+		boolean next = endPageNum * pageNum_cnt >= count ? false :true;
+		
 		List<BoardVO> list = null ;
 		list = service.listPage(displayPost, postNum);
 		model.addAttribute("list", list);
 		model.addAttribute("pageNum", pageNum);
+		
+		// 시작 및 끝 번호
+		model.addAttribute("startPageNum", startPageNum);
+		model.addAttribute("endPageNum", endPageNum);
+
+		// 이전 및 다음 
+		model.addAttribute("prev", prev);
+		model.addAttribute("next", next);
+		// 현재 페이지
+		model.addAttribute("select", num);
+		*/
 	}
+	
+	// 게시물 목록 + 페이징 + 검색 기능
+	@RequestMapping(value="/listPageSearch", method=RequestMethod.GET)
+	public void getListpageSearch(Model model, @RequestParam("num") int num,
+			@RequestParam(value = "searchType", required = false, defaultValue = "title") String searchType,
+			@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword
+			) throws Exception{
+		
+		Page page = new Page();
+		
+		page.setNum(num);
+//		page.setCount(service.count());  
+		page.setCount(service.searchCount(searchType, keyword));
+		
+		// 검색 타입과 검색어
+		page.setSearchTypeKeyword(searchType, keyword);
+		
+		List<BoardVO> list = null; 
+		list = service.listPageSearch(page.getDisplayPost(), page.getPostNum(), searchType, keyword);
+
+		model.addAttribute("list", list);   
+		model.addAttribute("page",page);
+		model.addAttribute("select", num);
+		
+		model.addAttribute("searchType", searchType);
+		model.addAttribute("keyword", keyword);
+	}		
+	
 	
 	// 게시글 작성 1 (작성 폼가져오기)
 	@RequestMapping(value = "/write", method = RequestMethod.GET)
@@ -58,7 +135,7 @@ public class BoardController {
 	public String postWrite(BoardVO vo) throws Exception {
 		service.write(vo);
 		
-		return "redirect:/board/list";
+		return "redirect:/board/listPage?num=1";
 	}
 	
 	// 게시물 조회
@@ -87,7 +164,7 @@ public class BoardController {
 	public String getDelete(@RequestParam("no") int no) throws Exception {
 		service.delete(no);
 		
-		return "redirect:/board/list";
+		return "redirect:/board/listPage?num=1";
 	}
 }
 
