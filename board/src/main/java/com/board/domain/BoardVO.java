@@ -5,27 +5,27 @@ import java.util.Date;
 public class BoardVO {
 	
 /* create table tbl_board(
-		  bno int not null auto_increment,
+		  no int not null auto_increment,
 		  title varchar(50) not null,
 		  content text not null,
 		  writer varchar(30) not null,
 		  regDate timestamp not null default now(),
 		  viewCnt int default 0,
-		  primary key(bno)
+		  primary key(no)
 		); */
 	
-	private int bno;
+	private int no;
 	private String title;
 	private String content;
 	private String writer;
 	private Date regDate;
 	private int viewCnt;
 	
-	public int getBno() {
-		return bno;
+	public int getno() {
+		return no;
 	}
-	public void setBno(int bno) {
-		this.bno = bno;
+	public void setno(int no) {
+		this.no = no;
 	}
 	public String getTitle() {
 		return title;

@@ -3,4 +3,67 @@
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http:mybatis.org/dtd/mybatis-3-mapper.dtd">
 	<mapper namespace="com.board.mappers.board">
-	</mapper>
+	
+	<!-- 게시물 목록 -->
+	<select id="list" resultType="com.board.domain.BoardVO">
+		SELECT 
+ 			no, title, content, writer, regDate, viewCnt
+ 		FROM 
+ 			october.tb1_board
+	</select>
+	
+	<!-- 게시물 목록 + 페이징 -->
+	<select id="listPage" parameterType="hashMap" resultType="com.board.domain.BoardVO">
+	SELECT
+		no, title, content, writer, regDate, viewCnt
+	FROM
+		tb1_board
+	ORDER by no desc
+ 		limit #{displayPost}, #{postNum}
+	</select>
+	
+	<!-- 게시물 작성	--> 
+	<insert id="write" parameterType="com.board.domain.BoardVO">
+		INSERT INTO `tb1_board` (`title`, `content`, `writer`) VALUES (#{title}, #{content}, #{writer});
+	</insert>
+	
+	<!-- 게시물 조회 -->
+	<select id="view" parameterType="int" resultType="com.board.domain.BoardVO">
+		SELECT
+			no, title, content, writer, regDate, viewCnt
+		FROM 
+			october.tb1_board
+		WHERE
+			no = #{no}
+	</select>
+	
+	<!--  게시물 수정 -->
+	<update id="modify" parameterType="com.board.domain.BoardVO">
+		UPDATE 
+			october.tb1_board
+		SET
+			title = #{title},
+			content = #{content},
+			writer = #{writer}
+		WHERE
+			no = #{no}	
+	</update>
+	
+	<!--  게시물 삭제 -->
+	<delete id="delete" parameterType="int">
+		DELETE
+		FROM tb1_board
+		WHERE no = #{no}
+	</delete>
+	
+	<!-- 게시물 총 개수 -->
+	<select id="count" resultType="int">
+		SELECT
+			count(no)
+		FROM
+			tb1_board 
+	</select>
+	
+	
+	
+</mapper>
