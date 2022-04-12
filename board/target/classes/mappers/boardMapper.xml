@@ -7,27 +7,27 @@
 	<!-- 게시물 목록 -->
 	<select id="list" resultType="com.board.domain.BoardVO">
 		SELECT 
- 			no, title, content, writer, regDate, viewCnt
+ 			bno, title, content, writer, regDate, viewCnt
  		FROM 
- 			october.tb1_board
+ 			october.board
 	</select>
 	
 	<!-- 게시물 목록 + 페이징 -->
 	<select id="listPage" parameterType="hashMap" resultType="com.board.domain.BoardVO">
 	SELECT
-		no, title, content, writer, regDate, viewCnt
+		bno, title, content, writer, regDate, viewCnt
 	FROM
-		tb1_board
-	ORDER by no desc
+		board
+	ORDER by bno desc
  		limit #{displayPost}, #{postNum}
 	</select>
 	
 	<!-- 게시물 목록 + 페이징 + 검색기능-->
 	<select id="listPageSearch" parameterType="hashMap" resultType="com.board.domain.BoardVO">
 	SELECT
-		no, title, content, writer, regDate, viewCnt
+		bno, title, content, writer, regDate, viewCnt
 	FROM
-		tb1_board
+		board
 	<if test='searchType.equals("title")'>
 	 	WHERE title LIKE concat('%', #{keyword}, '%')
 	</if>
@@ -44,13 +44,13 @@
 	<if test='searchType.equals("writer")'>
 	 	WHERE writer LIKE concat('%', #{keyword}, '%')
 	</if>
-	ORDER by no desc
+	ORDER by bno desc
  		limit #{displayPost}, #{postNum}
 	</select>
 	
 	<!-- 게시물 검색적용 후 + 게시물 총개수 보이기 -->
 	<select id="searchCount" parameterType="hashMap" resultType="int">
-	select count(no) from tb1_board  
+	select count(bno) from board  
   
 	<if test='searchType.equals("title")'>
 		WHERE title LIKE concat('%', #{keyword}, '%')
@@ -73,44 +73,44 @@
 	
 	<!-- 게시물 작성	--> 
 	<insert id="write" parameterType="com.board.domain.BoardVO">
-		INSERT INTO `tb1_board` (`title`, `content`, `writer`) VALUES (#{title}, #{content}, #{writer});
+		INSERT INTO `board` (`title`, `content`, `writer`) VALUES (#{title}, #{content}, #{writer});
 	</insert>
 	
 	<!-- 게시물 조회 -->
 	<select id="view" parameterType="int" resultType="com.board.domain.BoardVO">
 		SELECT
-			no, title, content, writer, regDate, viewCnt
+			bno, title, content, writer, regDate, viewCnt
 		FROM 
-			october.tb1_board
+			october.board
 		WHERE
-			no = #{no}
+			bno = #{no}
 	</select>
 	
 	<!--  게시물 수정 -->
 	<update id="modify" parameterType="com.board.domain.BoardVO">
 		UPDATE 
-			october.tb1_board
+			october.board
 		SET
 			title = #{title},
 			content = #{content},
 			writer = #{writer}
 		WHERE
-			no = #{no}	
+			bno = #{bno}	
 	</update>
 	
 	<!--  게시물 삭제 -->
 	<delete id="delete" parameterType="int">
 		DELETE
-		FROM tb1_board
-		WHERE no = #{no}
+		FROM board
+		WHERE bno = #{bno}
 	</delete>
 	
 	<!-- 게시물 총 개수 -->
 	<select id="count" resultType="int">
 		SELECT
-			count(no)
+			count(bno)
 		FROM
-			tb1_board 
+			board 
 	</select>
 	
 	

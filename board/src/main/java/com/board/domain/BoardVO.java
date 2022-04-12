@@ -14,18 +14,18 @@ public class BoardVO {
 		  primary key(no)
 		); */
 	
-	private int no;
+	private int bno;
 	private String title;
 	private String content;
 	private String writer;
 	private Date regDate;
 	private int viewCnt;
 	
-	public int getno() {
-		return no;
+	public int getBno() {
+		return bno;
 	}
-	public void setno(int no) {
-		this.no = no;
+	public void setBno(int bno) {
+		this.bno = bno;
 	}
 	public String getTitle() {
 		return title;

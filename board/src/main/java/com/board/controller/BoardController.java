@@ -13,21 +13,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.board.dao.BoardDAO;
 import com.board.domain.BoardVO;
 import com.board.domain.Page;
+import com.board.domain.ReplyVO;
 import com.board.service.BoardService;
+import com.board.service.ReplyService;
 
 @Controller
 @RequestMapping("/board/*")
 public class BoardController {
 	
 	@Inject
-	private BoardService service;
+	private BoardService boardService;
+	
+	@Inject ReplyService replyService;
 	
 	// 게시글 목록
 	@RequestMapping(value="/list", method=RequestMethod.GET)
 	public void getList(Model model) throws Exception{
 		
 		List<BoardVO> list = null ;
-		list = service.list();
+		list = boardService.list();
 		model.addAttribute("list", list);
 	}
 	
@@ -38,10 +42,10 @@ public class BoardController {
 		Page page = new Page();
 		
 		page.setNum(num);
-		page.setCount(service.count());  
+		page.setCount(boardService.count());  
 
 		List<BoardVO> list = null; 
-		list = service.listPage(page.getDisplayPost(), page.getPostNum());
+		list = boardService.listPage(page.getDisplayPost(), page.getPostNum());
 
 		model.addAttribute("list", list);   
 		/*model.addAttribute("pageNum", page.getPageNum());
@@ -57,7 +61,7 @@ public class BoardController {
 		model.addAttribute("select", num);
 		/*
 		// 게시물 총 갯수
-		int count = service.count();
+		int count = boardService.count();
 		// 한 페이지에 출력할 게시물 개수
 		int postNum = 5;   // 원래는 10개
 		// 하단 페이징 번호
@@ -82,7 +86,7 @@ public class BoardController {
 		boolean next = endPageNum * pageNum_cnt >= count ? false :true;
 		
 		List<BoardVO> list = null ;
-		list = service.listPage(displayPost, postNum);
+		list = boardService.listPage(displayPost, postNum);
 		model.addAttribute("list", list);
 		model.addAttribute("pageNum", pageNum);
 		
@@ -108,14 +112,14 @@ public class BoardController {
 		Page page = new Page();
 		
 		page.setNum(num);
-//		page.setCount(service.count());  
-		page.setCount(service.searchCount(searchType, keyword));
+//		page.setCount(boardService.count());  
+		page.setCount(boardService.searchCount(searchType, keyword));
 		
 		// 검색 타입과 검색어
 		page.setSearchTypeKeyword(searchType, keyword);
 		
 		List<BoardVO> list = null; 
-		list = service.listPageSearch(page.getDisplayPost(), page.getPostNum(), searchType, keyword);
+		list = boardService.listPageSearch(page.getDisplayPost(), page.getPostNum(), searchType, keyword);
 
 		model.addAttribute("list", list);   
 		model.addAttribute("page",page);
@@ -133,38 +137,43 @@ public class BoardController {
 	// 게시물 작성 2 (리스트에 넣기)
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
 	public String postWrite(BoardVO vo) throws Exception {
-		service.write(vo);
+		boardService.write(vo);
 		
-		return "redirect:/board/listPage?num=1";
+		return "redirect:/board/listPageSearch?num=1";
 	}
 	
 	// 게시물 조회
 	@RequestMapping(value = "/view", method = RequestMethod.GET)
-	public void getView(@RequestParam("no") int no, Model model) throws Exception {
-		BoardVO vo = service.view(no);
+	public void getView(@RequestParam("bno") int bno, Model model) throws Exception {
+		BoardVO vo = boardService.view(bno);
 		model.addAttribute("view",vo);
+		
+		// 댓글 조회
+		List<ReplyVO> reply = null;
+		reply = replyService.list(bno);
+		model.addAttribute("reply", reply);
 	}
 	
 	// 게시물 수정 1 (수정폼 가져오기)
 	@RequestMapping(value = "/modify", method = RequestMethod.GET)
-	public void getModify(@RequestParam("no") int no, Model model) throws Exception {
-		BoardVO vo = service.view(no);
+	public void getModify(@RequestParam("bno") int bno, Model model) throws Exception {
+		BoardVO vo = boardService.view(bno);
 		model.addAttribute("view",vo);
 	}
 	// 게시물 수정 2 (리스트에 수정된거 넣기)
 	@RequestMapping(value = "/modify", method = RequestMethod.POST)
 	public String postModify(BoardVO vo) throws Exception {
-		service.modify(vo);
+		boardService.modify(vo);
 		
-		return "redirect:/board/view?no=" + vo.getno();  //수정완료하면 그 해당 게시물 조회 된곳으로 돌라가게함
+		return "redirect:/board/view?bno=" + vo.getBno();  //수정완료하면 그 해당 게시물 조회 된곳으로 돌라가게함
 	}
 	
 	// 게시물 삭제
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public String getDelete(@RequestParam("no") int no) throws Exception {
-		service.delete(no);
+	public String getDelete(@RequestParam("bno") int bno) throws Exception {
+		boardService.delete(bno);
 		
-		return "redirect:/board/listPage?num=1";
+		return "redirect:/board/listPageSearch?num=1";
 	}
 }
 
