@@ -101,7 +101,7 @@
 		
 		<br><br>
 		
-		<!-- 페이징 바를 표시해줄 공간 -->
+		<!-- 페이징 바를 표시해줄 공간 시작-->
 		<div align="center" class="paging-area">
 			<% if (currentPage != 1) { %>
 				<button onclick="doPageClick(<%= currentPage - 1 %>)">&lt;</button>
@@ -126,7 +126,7 @@
 				location.href = "<%= contextPath %>/list.bo?currentPage=" + currentPage;
 			}
 		</script>
-		
+		<!-- 페이징 바를 표시해줄 공간 끝-->
 		
 		
 		

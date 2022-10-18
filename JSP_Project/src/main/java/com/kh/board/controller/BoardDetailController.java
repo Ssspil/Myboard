@@ -47,6 +47,8 @@ public class BoardDetailController extends HttpServlet {
 	        
 	        request.getRequestDispatcher("views/board/boardDetailView.jsp").forward(request, response);
 	        
+	        System.out.println("일반게시글 상세조회");
+	        
 	    } else {   // 에러페이지
 	        request.setAttribute("errorMsg", "일반게시글 상세조회 실패");
 	        request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);

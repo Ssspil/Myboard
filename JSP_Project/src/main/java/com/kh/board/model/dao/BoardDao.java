@@ -13,6 +13,7 @@ import java.util.Properties;
 
 import com.kh.board.model.vo.Attachment;
 import com.kh.board.model.vo.Board;
+import com.kh.board.model.vo.Category;
 import com.kh.common.model.vo.PageInfo;
 
 import static com.kh.common.JDBCTemplate.*;
@@ -197,7 +198,7 @@ public class BoardDao {
                 at = new Attachment();
                 
                 at.setFileNo(rset.getInt("FILE_NO"));
-                at.setOriginName(rset.getString("ORIGIGN_NAME"));
+                at.setOriginName(rset.getString("ORIGIN_NAME"));
                 at.setChangeName(rset.getString("CHANGE_NAME"));
                 at.setFilePath(rset.getString("FILE_PATH"));
             }
@@ -213,5 +214,101 @@ public class BoardDao {
         return at;
     }
 
+    public ArrayList<Category> selectCategoryList(Connection conn) {
+        ArrayList<Category> list = new ArrayList<>();
+        
+        PreparedStatement psmt = null;
+        ResultSet rset = null;
+        
+        String sql = prop.getProperty("selectCategoryList");
+        
+        try {
+            psmt = conn.prepareStatement(sql);
+            
+            rset = psmt.executeQuery();
+            
+            while(rset.next()) {
+                Category c = new Category();
+                c.setCategoryName(rset.getString("CATEGORY_NAME"));
+                c.setCategoryNo(rset.getInt(1));
+                list.add(c);
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(rset);
+            close(psmt);
+        }
+        
+        return list;
+        
+
+    }
+
+    public int insertBoard(Board b, Connection conn) {
+        
+        int result = 0;
+        PreparedStatement psmt = null;
+        
+        String sql = prop.getProperty("insertBoard");
+        
+        try {
+            psmt = conn.prepareStatement(sql);
+            
+            psmt.setInt(1, Integer.parseInt(b.getCategory()));
+            psmt.setString(2, b.getBoardTitle());
+            psmt.setString(3, b.getBoardContent());
+            psmt.setInt(4, Integer.parseInt(b.getBoardWriter()));
+            
+            result = psmt.executeUpdate();
+            
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(psmt);
+        }
+        
+        return result;
+    }
+
+    public int insertAttachment(Attachment at, Connection conn) {
+        
+        int result = 0;
+        PreparedStatement psmt = null;
+        
+        String sql = prop.getProperty("insertAttachment");
+        
+        try {
+            psmt = conn.prepareStatement(sql);
+            
+            psmt.setString(1, at.getOriginName());
+            psmt.setString(2, at.getChangeName());
+            psmt.setString(3,  at.getFilePath());
+            
+            result = psmt.executeUpdate();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(psmt);
+        }
+        
+        return result;
+    }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
 }
