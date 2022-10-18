@@ -285,7 +285,7 @@ public class BoardDao {
             
             psmt.setString(1, at.getOriginName());
             psmt.setString(2, at.getChangeName());
-            psmt.setString(3,  at.getFilePath());
+            psmt.setString(3, at.getFilePath());
             
             result = psmt.executeUpdate();
             
@@ -298,6 +298,165 @@ public class BoardDao {
         return result;
     }
 
+    public int updateBoard(Board b, Connection conn) {
+        
+        int result = 0;
+        PreparedStatement psmt = null;
+        
+        String sql = prop.getProperty("updateBoard");
+        
+        try {
+            psmt = conn.prepareStatement(sql);
+            
+            psmt.setInt(1, Integer.parseInt(b.getCategory()));
+            psmt.setString(2, b.getBoardTitle());
+            psmt.setString(3, b.getBoardContent());
+            psmt.setInt(4, b.getBoardNo());
+            
+            result = psmt.executeUpdate();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(psmt);
+        }
+        
+        
+        return result;
+    }
+
+    public int updateAttachment(Attachment at, Connection conn) {
+        
+        int result = 0;
+        PreparedStatement psmt = null;
+        
+        String sql = prop.getProperty("updateAttachment");
+        
+        try {
+            psmt = conn.prepareStatement(sql);
+            
+            psmt.setString(1, at.getOriginName());
+            psmt.setString(2, at.getChangeName());
+            psmt.setString(3, at.getFilePath());
+            psmt.setInt(4, at.getFileNo());
+            
+            result = psmt.executeUpdate();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(psmt);
+        }
+        
+        return result;
+    }
+
+    public int insertNewAttachment(Attachment at, Connection conn) {
+        
+        int result = 0;
+        PreparedStatement psmt = null;
+        
+        String sql = prop.getProperty("insertNewAttachment");
+        
+        try {
+            psmt = conn.prepareStatement(sql);
+            
+            psmt.setInt(1, at.getRefNo());
+            psmt.setString(2, at.getOriginName());
+            psmt.setString(3, at.getChangeName());
+            psmt.setString(4, at.getFilePath());
+            
+            result = psmt.executeUpdate();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(psmt);
+        }
+        
+        return result;
+    }
+
+    public int deleteBoard(int boardNo, Connection conn) {
+        
+        int result = 0;
+        PreparedStatement psmt = null;
+        
+        String sql = prop.getProperty("deleteBoard");
+        
+        try {
+            psmt = conn.prepareStatement(sql);
+            
+            psmt.setInt(1, boardNo);
+            
+            result = psmt.executeUpdate();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(psmt);
+        }
+        
+        return result;
+    }
+
+    public void deleteAttachment(int boardNo, Connection conn) {
+        
+        PreparedStatement psmt = null;
+        
+        String sql = prop.getProperty("deleteAttachment");
+        
+        try {
+            psmt = conn.prepareStatement(sql);
+            
+            psmt.setInt(1, boardNo);
+            
+            psmt.executeUpdate();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(psmt);
+        }
+        
+    }
+
+    public ArrayList<Board> selectThumbnailList(Connection conn) {
+        
+        ArrayList<Board> list = new ArrayList<>();
+        
+        PreparedStatement psmt = null;
+        
+        ResultSet rset = null;
+        
+        String sql = prop.getProperty("selectThumbnailList");
+        
+        try {
+            psmt = conn.prepareStatement(sql);
+            
+            rset = psmt.executeQuery();
+            
+            while(rset.next()) {
+                Board b = new Board();
+                b.setBoardNo(rset.getInt(1));
+                b.setBoardTitle(rset.getString(2));
+                b.setCount(rset.getInt(3));
+                b.setTitleImg(rset.getString(4));
+                
+                list.add(b);
+            }
+            
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(rset);
+            close(psmt);
+        }
+        
+        return list;
+    }
+    
     
     
     
