@@ -179,6 +179,39 @@ public class BoardService {
     }
 
 
+    public int insertThumbnailBoard(Board b, ArrayList<Attachment> list) {
+
+        Connection conn = getConnection();
+        
+        int result1 = new BoardDao().insertThumbnailBoard(conn, b);
+        
+        int result2 = new BoardDao().insertAttachmentList(conn, list);
+        
+        if (result1 > 0 && result2 > 0) {
+            commit(conn);
+        } else {
+            rollback(conn);
+        }
+        
+        close();
+
+        
+        return result1 * result2;
+    }
+
+
+    public ArrayList<Attachment> selectAttachmentList(int boardNo) {
+        
+        Connection conn = getConnection();
+        
+        ArrayList<Attachment> list = new BoardDao().selectAttachmentList(boardNo, conn);
+        
+        close();
+        
+        return list;
+    }
+
+
 
 
 

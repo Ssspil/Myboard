@@ -456,6 +456,109 @@ public class BoardDao {
         
         return list;
     }
+
+    public int insertThumbnailBoard(Connection conn, Board b) {
+        
+        int result = 0;
+        PreparedStatement psmt = null;
+        
+        String sql = prop.getProperty("insertThumbnailBoard");
+        
+        try {
+            psmt = conn.prepareStatement(sql);
+            
+            psmt.setString(1, b.getBoardTitle());
+            psmt.setString(2, b.getBoardContent());
+            psmt.setInt(3, Integer.parseInt(b.getBoardWriter()));
+            
+            result = psmt.executeUpdate();
+            
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(psmt);
+        }
+        
+        return result;
+    }
+
+    public int insertAttachmentList(Connection conn, ArrayList<Attachment> list) {
+
+        int result = 1;
+        int result2 = 1;
+        
+        PreparedStatement psmt = null;
+        
+        String sql = prop.getProperty("insertAttachmentList");
+        
+        try {
+            
+            psmt = conn.prepareStatement(sql);
+            
+            for(Attachment at : list) {
+                // 반복문이 돌아갈때마다, 미완성된 sql문을 담은 psmt객체 생성.
+//                psmt = conn.prepareStatement(sql); 그냥 밖에 꺼내도 1번만 사용해서 가능
+                
+                psmt.setString(1, at.getOriginName());
+                psmt.setString(2, at.getChangeName());
+                psmt.setString(3, at.getFilePath());
+                psmt.setInt(4, at.getFileLevel());
+                
+                // 실행
+                result2 = psmt.executeUpdate();   
+                
+                if(result2 == 0) {
+                    result = 0;
+                }
+            }
+
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(psmt);
+        }
+        
+        return result;
+    }
+
+    public ArrayList<Attachment> selectAttachmentList(int boardNo, Connection conn) {
+        
+        ArrayList<Attachment> list = new ArrayList<>();
+        
+        PreparedStatement psmt = null;
+        ResultSet rset = null;
+        
+        String sql = prop.getProperty("selectAttachment");
+        
+        try {
+            psmt = conn.prepareStatement(sql);
+            
+            psmt.setInt(1, boardNo);
+            
+            rset = psmt.executeQuery();
+            
+            while(rset.next()) {
+                
+                Attachment at = new Attachment();
+                
+                at.setChangeName(rset.getString("CHANGE_NAME"));
+                at.setFilePath(rset.getString("FILE_PATH"));
+                at.setFileLevel(rset.getInt("FILE_LEVEL"));
+                
+                list.add(at);
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(rset);
+            close(psmt);
+        }
+        
+        return list;
+    }
     
     
     
