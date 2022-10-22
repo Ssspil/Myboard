@@ -56,9 +56,11 @@
 		SELECT FILE_NO,
 			   ORIGIN_NAME,
 			   CHANGE_NAME,
-			   FILE_PATH
+			   FILE_PATH,
+			   FILE_LEVEL
 		FROM ATTACHMENT
 		WHERE REF_BNO = ?
+		ORDER BY FILE_LEVEL
 	</entry>
 	
 	<entry key="selectCategoryList">
@@ -111,7 +113,7 @@
 		WHERE REF_BNO = ?
 	</entry>
 	
-	<!-- 여기 아래부터 사진게시판의 메퍼@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+	<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ여기 아래부터 사진게시판의 메퍼ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
 	
 	<entry key="selectThumbnailList">
 		SELECT BOARD_NO, 
@@ -125,5 +127,14 @@
 			AND FILE_LEVEL = 1
 		ORDER BY CREATE_DATE DESC
 	</entry>
+	
+	<entry key="insertThumbnailBoard">
+		INSERT INTO BOARD(BOARD_NO, BOARD_TYPE, BOARD_TITLE, BOARD_CONTENT, BOARD_WRITER)
+		VALUES (SEQ_BNO.NEXTVAL, 2, ?, ?, ?)
+	</entry>
 
+	<entry key="insertAttachmentList">
+      	INSERT INTO ATTACHMENT(FILE_NO, REF_BNO, ORIGIN_NAME, CHANGE_NAME, FILE_PATH, FILE_LEVEL)
+      	VALUES (SEQ_FNO.NEXTVAL, SEQ_BNO.CURRVAL, ?, ?, ?, ?)
+  	 </entry>
 </properties>
