@@ -102,10 +102,37 @@
 
     <script>
         function idCheck(){
+        	
+        	// 아이디를 입력하는 input 요소객체
             let $userId = $("#enroll-form input[name=userId]");
+        	// name이 userId인 요소가 menubar.jsp에도 있어서 확실하게 어디에 속해있는 요소인지 잘 적어줘야한다
+        	
+        	$.ajax({
+        		url : "idCheck.me",
+        		data : {checkId : $userId.val()},
+        		success : function(result){
+        			if(result == "NNNNN"){	// 사용불가
+        				alert("이미 존재하거나 회원탈퇴한 아이디 입니다.");
+        				$userId.focus();
+        			} else {	// 사용가능
+        				if (confirm("사용가능한 아이디입니다. 사용하시겠습니까? ")){
+        					
+        		            $("#enroll-form :submit").removeAttr("disabled");	// 회원가입버튼 활성화
+        		            $userId.attr("readonly",true);	// 아이디값 확정
+        		            
+        				} else {	 // 사용안함
+        					$userId.focus();
+        					
+        				}
+        			}
+        		},
+        		error : function(){
+        			console.log("아이디 중복체크용 ajax 통신 실패");
+        		}
+        		
+        		
+        	})
 
-            $("#enroll-form :submit").removeAttr("disabled");
-            $userId.attr("readonly",true);
         }
     </script>
 

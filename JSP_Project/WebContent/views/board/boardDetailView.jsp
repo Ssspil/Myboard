@@ -12,6 +12,7 @@
 <head>
 <meta charset="UTF-8">
 <title>일반게시판 상세보기 페이지</title>
+
 <style>
     .outer{
         background-color: black;
@@ -96,7 +97,7 @@
 							<td>
 								<textarea id="replyContent" cols="50" rows="3" style="resize:mome;"></textarea>
 							</td>
-							<td><button onclick="">댓글등록></button></td>	
+							<td><button onclick="insertReply();">댓글등록></button></td>	
 						</tr>
 					
 					<% } else { %>
@@ -108,11 +109,92 @@
 							<td><button disabled>댓글등록</button></td>
 								
 					<% } %>
-				</thead>	
+				</thead>
+				<tbody>
+				
+				</tbody>	
 			</table>
 		</div>
 	
 	
 	</div>
+	
+	<script>
+	
+		$(function(){
+			selectReplyList();
+		
+			setInterval(selectReplyList, 1000);
+		});
+		
+	
+		function insertReply(){
+			$.ajax({
+				url : "rinsert.bo",
+				data : {
+					content : $("#replyContent").val(),
+					bno :  ${b.boardNo}
+				},
+				type : "post",
+				success : function(result){
+					if(result > 0) {		// 댓글 등록 성공 => 갱신된 댓글 리스트 조회
+						selectReplyList();
+						$("#replyContent").val("");
+					} 	
+				},
+				error : function(){
+					console.log("댓글작성용 ajax 통신 실패");
+				}
+				
+			})
+		}
+		
+		function selectReplyList(){
+			$.ajax({
+				url : "rlist.bo",
+				data : {bno : ${b.boardNo} },
+				success : (list) => {
+					
+					let result = "";
+					for(let i of list){
+						result += "<tr>"
+									+ "<td>" + i.boardWriter + "</td>"
+									+ "<td>" + i.replyContent + "</td>"
+									+ "<td>" + i.createDate + "</td>"
+								+ "</tr>";
+					}
+					$("#reply-area tbody").html(result);
+				},
+				error : function(){
+					console.log("댓글리스트조회용 ajax통신 실패");
+				}
+				
+			});
+		}
+		
+		
+	</script>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </body>
 </html>
