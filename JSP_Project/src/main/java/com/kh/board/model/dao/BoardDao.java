@@ -15,6 +15,7 @@ import com.kh.board.model.vo.Attachment;
 import com.kh.board.model.vo.Board;
 import com.kh.board.model.vo.Category;
 import com.kh.common.model.vo.PageInfo;
+import com.kh.member.model.vo.Reply;
 
 import static com.kh.common.JDBCTemplate.*;
 
@@ -523,7 +524,7 @@ public class BoardDao {
         return result;
     }
 
-    public ArrayList<Attachment> selectAttachmentList(int boardNo, Connection conn) {
+    public ArrayList<Attachment> selectAttachmentList(Connection conn, int boardNo) {
         
         ArrayList<Attachment> list = new ArrayList<>();
         
@@ -559,16 +560,70 @@ public class BoardDao {
         
         return list;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+    public int insertReply(Reply r, Connection conn) {
+
+        int result = 0;
+               
+        PreparedStatement psmt = null;
+                
+        String sql = prop.getProperty("insertReply");
+        
+        try {
+            psmt = conn.prepareStatement(sql);
+            
+            psmt.setString(1, r.getReplyContent());
+            psmt.setInt(2, r.getRefBoardNo());
+            psmt.setInt(3, Integer.parseInt(r.getBoardWriter()));
+            
+            result = psmt.executeUpdate();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(psmt);
+        }
+        
+        return result;
+    }
+
+    public ArrayList<Reply> selectReplyList(int boardNo, Connection conn) {
+        
+        ArrayList<Reply> list = new ArrayList<>();
+        
+        PreparedStatement psmt = null;
+        ResultSet rset = null;
+        
+        String sql = prop.getProperty("selectReplyList");
+        
+        try {
+            psmt = conn.prepareStatement(sql);
+            psmt.setInt(1, boardNo);
+            
+            rset = psmt.executeQuery();
+            
+            while(rset.next()) {
+                
+                list.add(new Reply(
+                            rset.getInt(1),
+                            rset.getString(2),
+                            rset.getString(3),
+                            rset.getString(4)
+                        ));
+            }
+            
+            
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(rset);
+            close(psmt);
+        }
+           
+        
+        return list;
+    }
     
     
     

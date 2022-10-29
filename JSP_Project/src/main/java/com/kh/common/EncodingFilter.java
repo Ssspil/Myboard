@@ -41,7 +41,7 @@ public class EncodingFilter extends HttpFilter implements Filter {
 	    // 이건 무조건 있어야하는 것.
 		chain.doFilter(request, response);
 		
-		System.out.println("인코딩실행");
+//		System.out.println("인코딩실행");
 	}
 
 	/**

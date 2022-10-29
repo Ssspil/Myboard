@@ -120,6 +120,22 @@ public class MemberService {
 	    
 	    return result;
 	}
+
+	/**
+	 * 아이디 유효성검사Ajax로
+	 * @param checkId
+	 * @return
+	 */
+    public int idCeck(String checkId) {
+
+        Connection conn = JDBCTemplate.getConnection();
+        
+        int count = new MemberDao().idCeck(checkId, conn);
+        
+        JDBCTemplate.close();
+        
+        return count;
+    }
 	
 	
 	
