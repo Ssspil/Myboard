@@ -108,8 +108,12 @@
 						 // => 해당 파일을 읽어들이는 순간 해당 파일만의 고유한 url이 부여된다.
 						 // => 해당url의 src의 속성값으로 제시
 						 reader.readAsDataURL(inputFile.files[0]);
+						
 						 
-						 // 파일 읽기가 완료되었을 때 실행할 함수 정의
+						 
+						 //readAsDataURL(inputF파일 읽기가 완료되었을 때 실행할 함수 정의
+								 
+								 
 						 reader.onload = function(e){	// e :윈도우객체에 타켓속성에 접근할수 있는 매개변수. / e. targetr.result에 reader의 고유 url담김
 							 // 각 영역에 맞춰서 이미지 미리보기
 							 switch(num){

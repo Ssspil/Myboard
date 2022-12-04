@@ -88,7 +88,8 @@
 							<!-- 원본파일의 파일번호, 수정명을 hidden으로 넘길것 -->
 							<input type="hidden" name="originFileNo" value="<%= at.getFileNo() %>">
 							<input type="hidden" name="originFileName" value="<%= at.getChangeName() %>">
-						<% } %>
+						<% }  %>
+						<%  %>
 						<input type="file" name="upfile">
 					</td>
 				</tr>

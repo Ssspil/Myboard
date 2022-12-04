@@ -28,7 +28,7 @@
 	<%@ include file = "../common/menubar.jsp" %>
 	
 	<div class="outer">
-		<br><h1>일반게시판 상세보기</h1>><br>
+		<br><h1>일반게시판 상세보기</h1><br>
 		
 		<table id="detail-area" align="center" style="border : 1px solid cornflowerblue;">
 			<tr>
