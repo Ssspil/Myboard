@@ -26,7 +26,7 @@
 <br>
 
 
-## 코드 리뷰👻
+## Code Review👻
 ```sh
 protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
