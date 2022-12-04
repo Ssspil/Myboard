@@ -36,12 +36,15 @@
 <img width="600" alt="스크린샷 2022-12-04 오후 9 28 54" src="https://user-images.githubusercontent.com/92138800/205490487-43e1a7fe-e691-4aeb-a5e6-48d3de840f05.png">
 <img width="600" alt="스크린샷 2022-12-04 오후 9 28 06" src="https://user-images.githubusercontent.com/92138800/205490489-f4ce6f83-dab4-4d68-bf6d-3d5f7dcc4cb0.png">
 <img src="https://user-images.githubusercontent.com/92138800/205491281-83ef0fcb-08d1-4e2f-bef7-4b02457a87e2.png" width="600" />
+<img src="https://user-images.githubusercontent.com/92138800/205491660-a297a929-7043-4adb-a057-fe0cbca2d6c5.png" width="600" />
 <br>
 
 #### 6. 사진게시판
 <img src="https://user-images.githubusercontent.com/92138800/205491280-90507069-4b9d-417d-8a12-3d0ab4a159e2.png" width="600" />
 <img src="https://user-images.githubusercontent.com/92138800/205491282-78fcaf69-b381-462a-a220-7b474f7c393f.png"  width="600"/>
 <img src="https://user-images.githubusercontent.com/92138800/205491274-064726d3-6654-448b-ac91-c58b12388f15.png" width="600" />
+<br><br><br><br>
+
 
 
 
