@@ -1,6 +1,6 @@
 # Myboard Ssspil🧑‍💻
 개인 프로젝트 - 게시판 만들기
-<br><br><br>
+<br><br>
 
 ## Description🥰
 > &nbsp; 2022. 10 ~ 2022. 11
@@ -11,7 +11,6 @@
 일반게시판, 사진게시판, 썸네일을 보여주는 게시판
 ```
 <br>
-
 
 ## Tools💯
 * HTML5
