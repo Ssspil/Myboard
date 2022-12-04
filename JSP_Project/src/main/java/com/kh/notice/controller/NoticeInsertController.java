@@ -32,24 +32,24 @@ public class NoticeInsertController extends HttpServlet {
 	    
 	    request.setCharacterEncoding("UTF-8");
 	            
-            String userNo = request.getParameter("userNo");
-            String noticeTitle = request.getParameter("title");
-            String noticeContent = request.getParameter("content");
-            
-            Notice n = new Notice();
-            n.setNoticeTitle(noticeTitle);
-            n.setNoticeContent(noticeContent);
-            n.setNoticeWriter(userNo);
-            
-            int result = new NoticeService().insertNotice(n);
-            
-            if (result > 0) {   // 성공시 => list.no리스트페이지로 리 다이렉트.
-                request.getSession().setAttribute("alertMsg", "성공적을 공지사항이 등록되었습니다.");
-                response.sendRedirect(request.getContextPath()+"/list.no"); // jsp/list.no에 보낸거
-            } else {    // 실패시 -> 에러페이지 보여지도록
-                request.setAttribute("errorMsg", "공지사항 등록 실패");
-                request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
-            }
+        String userNo = request.getParameter("userNo");
+        String noticeTitle = request.getParameter("title");
+        String noticeContent = request.getParameter("content");
+        
+        Notice n = new Notice();
+        n.setNoticeTitle(noticeTitle);
+        n.setNoticeContent(noticeContent);
+        n.setNoticeWriter(userNo);
+        
+        int result = new NoticeService().insertNotice(n);
+        
+        if (result > 0) {   // 성공시 => list.no리스트페이지로 리 다이렉트.
+            request.getSession().setAttribute("alertMsg", "성공적을 공지사항이 등록되었습니다.");
+            response.sendRedirect(request.getContextPath()+"/list.no"); // jsp/list.no에 보낸거
+        } else {    // 실패시 -> 에러페이지 보여지도록
+            request.setAttribute("errorMsg", "공지사항 등록 실패");
+            request.getRequestDispatcher("views/common/errorPage.jsp").forward(request, response);
+        }
 	            
 	}
 

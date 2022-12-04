@@ -48,9 +48,6 @@ public class BoardUpdateFormController extends HttpServlet {
 	    request.setAttribute("b", b);
 	    request.setAttribute("at", at);
 	    
-	    
-	    
-	    
 	    request.getRequestDispatcher("views/board/boardUpdateForm.jsp").forward(request, response);
 	    
 	    System.out.println("일반게시판 수정하기");

@@ -109,15 +109,5 @@ public class Notice {
                 + ", noticeWriter=" + noticeWriter + ", count=" + count + ", createDate=" + createDate + ", status="
                 + status + "]";
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
 }

@@ -275,7 +275,7 @@ public class MemberDao {
             rset = psmt.executeQuery();
             
             if(rset.next()) {
-                count = rset.getInt(1);
+                count = rset.getInt("COUNT(*)");
             }
             
             

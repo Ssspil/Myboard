@@ -37,7 +37,7 @@ public class BoardEnrollFormController extends HttpServlet {
 	    request.setAttribute("list", list);
 	    request.getRequestDispatcher("views/board/boardEnrollForm.jsp").forward(request, response);
 	    
-	    System.out.println("알반게시글 글작성하기");
+	    System.out.println("일반게시글 글작성하기");
 	}
 
 	/**

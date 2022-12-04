@@ -42,11 +42,7 @@ public class AjaxReplyInsertController extends HttpServlet {
 	    
 	    int result = new BoardService().insertReply(r);
 	    
-	    response.getWriter().print(result);
-	    
-	    
-	    
-	    
+	    response.getWriter().print(result);   
 	    
 	}
 

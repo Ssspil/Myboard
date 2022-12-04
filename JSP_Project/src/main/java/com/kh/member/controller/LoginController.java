@@ -16,7 +16,7 @@ import com.kh.member.model.vo.Member;
 /**
  * Servlet implementation class LoginController
  */
-@WebServlet("/login.me")
+@WebServlet(name="loginServlet", urlPatterns="/login.me")
 public class LoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

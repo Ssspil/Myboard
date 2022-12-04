@@ -8,13 +8,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.kh.common.AESCryptor;
 import com.kh.member.model.service.MemberService;
 import com.kh.member.model.vo.Member;
 
 /**
  * Servlet implementation class MemberInsertController
  */
-@WebServlet("/insert.me")
+@WebServlet(name="memberInsertServlet", urlPatterns="/insert.me")
 public class MemberInsertController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -42,6 +43,8 @@ public class MemberInsertController extends HttpServlet {
 	    String email = request.getParameter("email");
 	    String address = request.getParameter("address");
 	    String[] interestArr = request.getParameterValues("interest");
+	    
+	    email = AESCryptor.encrypt(email);
 	    
 	    // "운동, 등산"
 	    String interest = interestArr != null ? String.join(",", interestArr) : "";
